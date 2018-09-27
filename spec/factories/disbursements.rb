@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :disbursement do
     fee { Faker::Number.number(2) }
-    week { Time.now }
+    week { Time.now.beginning_of_week }
 
     merchant
   end

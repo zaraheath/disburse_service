@@ -10,5 +10,5 @@ class Disbursement < ApplicationRecord
   belongs_to :merchant
 
   # Scopes
-  scope :by_week, ->(time) { where(created_at: time) }
+  scope :by_week, ->(time) { where(week: time) }
 end

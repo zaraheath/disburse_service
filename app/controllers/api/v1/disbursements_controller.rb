@@ -15,8 +15,12 @@ class Api::V1::DisbursementsController < ApplicationController
 
   def search_disbursements
     scope = current_merchant.disbursements
-    scope = scope.by_week(params[:week]&.to_time) if params[:week].present?
+    scope = scope.by_week(week) if params[:week].present?
     scope
+  end
+
+  def week
+    params[:week]&.to_time.beginning_of_week
   end
 
   def not_found
