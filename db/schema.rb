@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_27_162254) do
+ActiveRecord::Schema.define(version: 2018_09_27_162617) do
 
   create_table "merchants", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -18,6 +18,17 @@ ActiveRecord::Schema.define(version: 2018_09_27_162254) do
     t.string "cif"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "merchant_id"
+    t.bigint "shopper_id"
+    t.decimal "amount", precision: 7, scale: 2
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["merchant_id"], name: "index_orders_on_merchant_id"
+    t.index ["shopper_id"], name: "index_orders_on_shopper_id"
   end
 
   create_table "shoppers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

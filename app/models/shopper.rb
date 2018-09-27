@@ -7,6 +7,7 @@ class Shopper < ApplicationRecord
   validates :email, presence: true
 
   # Relations
+  has_many :orders
 
   # Callbacks
 end
