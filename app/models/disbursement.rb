@@ -9,5 +9,6 @@ class Disbursement < ApplicationRecord
   # Relations
   belongs_to :merchant
 
-  # Callbacks
+  # Scopes
+  scope :by_week, ->(time) { where(created_at: time) }
 end
