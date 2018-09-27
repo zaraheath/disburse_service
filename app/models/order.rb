@@ -13,6 +13,9 @@ class Order < ApplicationRecord
   # Callbacks
   before_commit :calculate_fee, if: :completed?
 
+  # Scopes
+  scope :completed, -> { where.not(completed_at: nil) }
+
   private
 
   def calculate_fee
