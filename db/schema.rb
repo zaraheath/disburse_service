@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_27_163319) do
+ActiveRecord::Schema.define(version: 2018_09_27_165511) do
 
   create_table "disbursements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "merchant_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2018_09_27_163319) do
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "fee", precision: 7, scale: 2
     t.index ["merchant_id"], name: "index_orders_on_merchant_id"
     t.index ["shopper_id"], name: "index_orders_on_shopper_id"
   end

@@ -11,4 +11,15 @@ class Order < ApplicationRecord
   belongs_to :shopper
 
   # Callbacks
+  before_commit :calculate_fee, if: :completed?
+
+  private
+
+  def calculate_fee
+    self.fee = OrderFee.new(amount).calculate
+  end
+
+  def completed?
+    completed_at.present?
+  end
 end
