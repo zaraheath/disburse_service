@@ -9,6 +9,8 @@ class Order < ApplicationRecord
   # Relations
   belongs_to :merchant
   belongs_to :shopper
+  has_many :disbursement_orders
+  has_many :disbursements, through: :disbursement_orders
 
   # Callbacks
   before_commit :calculate_fee, if: :completed?
@@ -19,7 +21,7 @@ class Order < ApplicationRecord
   private
 
   def calculate_fee
-    self.fee = OrderFee.new(amount).calculate
+    self.fee = OrderFee.new(merchant, amount).calculate
   end
 
   def completed?

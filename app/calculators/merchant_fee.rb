@@ -1,23 +1,43 @@
 # frozen_string_literal: true
 
 class MerchantFee
-  attr_reader :merchant
+  attr_reader :merchant, :week
 
-  def initialize(merchant)
+  def initialize(merchant, week = Time.now.beginning_of_week)
     @merchant = merchant
+    @week = week
   end
 
   def calculate
-    merchant.disbursements.create(week: week, fee: orders_sum_fee)
+    create_disbursement
+  end
+
+  def adjust!
+    disbursement = merchant.disbursements.find_by(week: week)
+    adjust_fee(disbursement)
   end
 
   private
 
   def orders_sum_fee
-    merchant.orders.completed.where(completed_at: [Time.now.last_week, Time.now]).sum(:fee)
+    orders.sum(:fee)
   end
 
-  def week
-    Time.now.beginning_of_week
+  def orders
+    merchant.orders.completed.where(completed_at: [week, week.end_of_week])
+  end
+
+  def adjust_fee(disbursement)
+    return if orders_sum_fee == disbursement.fee
+
+    create_disbursement(disbursement.fee - orders_sum_fee)
+  end
+
+  def create_disbursement(fee = orders_sum_fee)
+    disbursement = merchant.disbursements.new(week: week, fee: fee)
+    orders.each do |o|
+      disbursement.disbursement_orders.new(order: o)
+    end
+    disbursement.save!
   end
 end

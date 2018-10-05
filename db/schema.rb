@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_27_195508) do
+ActiveRecord::Schema.define(version: 2018_10_02_145716) do
+
+  create_table "disbursement_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "disbursement_id"
+    t.bigint "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["disbursement_id"], name: "index_disbursement_orders_on_disbursement_id"
+    t.index ["order_id"], name: "index_disbursement_orders_on_order_id"
+  end
 
   create_table "disbursements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "merchant_id"
@@ -19,6 +28,16 @@ ActiveRecord::Schema.define(version: 2018_09_27_195508) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["merchant_id"], name: "index_disbursements_on_merchant_id"
+  end
+
+  create_table "fees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "merchant_id"
+    t.integer "min"
+    t.integer "max"
+    t.decimal "fee", precision: 5, scale: 4
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["merchant_id"], name: "index_fees_on_merchant_id"
   end
 
   create_table "merchants", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

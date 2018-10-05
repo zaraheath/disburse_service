@@ -9,6 +9,7 @@ class Merchant < ApplicationRecord
   # Relations
   has_many :orders
   has_many :disbursements
+  has_many :fees
 
   # Callbacks
 end

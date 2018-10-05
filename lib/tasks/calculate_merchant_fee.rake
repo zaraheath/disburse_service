@@ -6,3 +6,9 @@ task calculate_merchant_fee: :environment do
   end
 end
 
+task adjust_merchant_fee: :environment do
+  Merchant.includes(:orders).find_in_batches do |merchant|
+    MerchantFee.new(merchant).adjust!
+  end
+end
+
